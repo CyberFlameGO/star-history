@@ -36,6 +36,13 @@ const useAppStore = defineStore("appStore", {
       chartMode: chartMode,
     };
   },
+  getters: {
+    svgChartLink: (state) => {
+      return `https://api.star-history.com/svg?repos=${state.repos.join(
+        ","
+      )}&type=${state.chartMode}`;
+    },
+  },
   actions: {
     addRepo(repo: string) {
       if (!this.repos.includes(repo)) {

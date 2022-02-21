@@ -101,6 +101,8 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref, watch } from "vue";
+import { useHead } from "@vueuse/head";
+
 import useAppStore from "../store";
 import { XYChartData } from "../../packages/xy-chart";
 import utils from "../../common/utils";
@@ -141,6 +143,42 @@ const state = reactive<State>({
   showGenEmbedCodeDialog: false,
 });
 const store = useAppStore();
+const head = reactive({
+  meta: [
+    // twitter card content
+    {
+      name: "twitter:image:src",
+      content: store.svgChartLink,
+    },
+    // og content
+    {
+      propery: "og:image",
+      content: store.svgChartLink,
+    },
+    {
+      propery: "og:image:alt",
+      content: "Star History",
+    },
+    {
+      propery: "og:site_name",
+      content: "star-history.com",
+    },
+    {
+      propery: "og:title",
+      content: "Star History",
+    },
+    {
+      propery: "og:url",
+      content: "star-history.com",
+    },
+    {
+      propery: "og:description",
+      content: "The missing GitHub star history graph.",
+    },
+  ],
+});
+
+useHead(head);
 
 const containerElRef = ref<HTMLDivElement | null>(null);
 
