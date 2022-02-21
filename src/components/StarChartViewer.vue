@@ -143,39 +143,81 @@ const state = reactive<State>({
   showGenEmbedCodeDialog: false,
 });
 const store = useAppStore();
-const head = reactive({
-  meta: [
-    // twitter card content
-    {
-      name: "twitter:image:src",
-      content: store.svgChartLink,
-    },
-    // og content
-    {
-      propery: "og:image",
-      content: store.svgChartLink,
-    },
-    {
-      propery: "og:image:alt",
-      content: "Star History",
-    },
-    {
-      propery: "og:site_name",
-      content: "star-history.com",
-    },
-    {
-      propery: "og:title",
-      content: "Star History",
-    },
-    {
-      propery: "og:url",
-      content: "star-history.com",
-    },
-    {
-      propery: "og:description",
-      content: "The missing GitHub star history graph.",
-    },
-  ],
+const staticHeadMeta = [
+  {
+    name: "twitter:card",
+    content: "summary_large_image",
+  },
+  {
+    name: "twitter:site",
+    content: "star-history.com",
+  },
+  {
+    name: "twitter:creator",
+    content: "bytebase",
+  },
+  {
+    name: "twitter:title",
+    content: "Star History",
+  },
+  {
+    name: "twitter:description",
+    content: "The missing GitHub star history graph.",
+  },
+  {
+    propery: "og:image:alt",
+    content: "Star History",
+  },
+  {
+    propery: "og:site_name",
+    content: "star-history.com",
+  },
+  {
+    propery: "og:title",
+    content: "Star History",
+  },
+  {
+    propery: "og:url",
+    content: "star-history.com",
+  },
+  {
+    propery: "og:description",
+    content: "The missing GitHub star history graph.",
+  },
+];
+
+const head = computed(() => {
+  if (store.repos && store.repos.length > 0) {
+    return {
+      meta: [
+        ...staticHeadMeta,
+        // twitter card dynamic svg chart
+        {
+          name: "twitter:image:src",
+          content: store.svgChartLink,
+        },
+        // og dynamic svg chart
+        {
+          propery: "og:image",
+          content: store.svgChartLink,
+        },
+      ],
+    };
+  } else {
+    return {
+      ...staticHeadMeta,
+      meta: [
+        {
+          name: "twitter:image",
+          content: "https://star-history.com/star-history.webp",
+        },
+        {
+          propery: "og:image",
+          content: "https://star-history.com/star-history.webp",
+        },
+      ],
+    };
+  }
 });
 
 useHead(head);
